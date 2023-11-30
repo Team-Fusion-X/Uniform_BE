@@ -33,7 +33,12 @@ public class MemberController {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return null;  // 뷰 이름이 필요x
         }
-
+        //현재 memberDTO의 아이디가 데이터베이스에 있는지 확인하는 메소드 MemberService 클래스에 정의
+        if (memberService.isExistId(memberDTO)){
+            response.setStatus((HttpServletResponse.SC_BAD_REQUEST));
+            System.out.println("중복");
+            return null; //
+        }
         // 성공
         memberService.save(memberDTO);
         // 여기 200 리퀘스트로 변경하기만 하면 됨
