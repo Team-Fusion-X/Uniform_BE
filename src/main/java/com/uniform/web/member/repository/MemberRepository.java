@@ -1,6 +1,6 @@
-package com.uniform.web.repository;
+package com.uniform.web.member.repository;
 
-import com.uniform.web.entity.MemberEntity;
+import com.uniform.web.member.entity.MemberEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
