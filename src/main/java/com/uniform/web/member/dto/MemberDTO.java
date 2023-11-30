@@ -28,9 +28,9 @@ public class MemberDTO { //회원 정보를 필드로 정의
         memberDTO.setMemberPhoneNumber(memberEntity.getMemberPhoneNumber());
         return memberDTO;
     }
-
     public boolean isPasswordMatch() {
         // 비밀번호와 비밀번호 확인이 일치하는지 확인
         return memberPassword != null && memberPassword.equals(memberPasswordCheck);
     }
+
 }

@@ -36,4 +36,7 @@ public class MemberService {
         memberLogRepository.save(memberLogEntity);
 
     }
+    public boolean isExistId(MemberDTO memberDTO){
+        return memberRepository.existsByMemberId(memberDTO.getMemberId()); //MemberRepository에 정의 한 함수이용
+    }
 }
