@@ -1,4 +1,4 @@
-package com.uniform.web.controller;
+package com.uniform.web.index.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
