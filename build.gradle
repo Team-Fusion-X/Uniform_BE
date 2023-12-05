@@ -29,6 +29,8 @@ dependencies {
 
 	implementation 'org.jetbrains:annotations:24.0.0'
 
+	implementation 'io.github.flashvayne:chatgpt-spring-boot-starter:1.0.4'
+
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
 	testImplementation 'junit:junit:4.13.1'
@@ -36,6 +38,7 @@ dependencies {
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
