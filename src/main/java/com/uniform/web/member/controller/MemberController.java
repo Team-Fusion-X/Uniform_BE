@@ -7,8 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor //MemberService에 대한 멤버를 사용 가능
@@ -22,7 +24,21 @@ public class MemberController {
     public String saveForm() {
         return "save";
     }
-
+    @GetMapping("/member/check")
+    public String checkForm(){ return "check"; }
+    @PostMapping("/member/check")
+    @ResponseBody
+    public MemberDTO checkMember(@ModelAttribute MemberDTO memberDTO, HttpServletResponse response){
+        String memberId = memberDTO.getMemberId();
+        MemberDTO userInfo = memberService.FindByMemberId(memberId);
+        if (userInfo == null) {
+            response.setStatus((HttpServletResponse.SC_BAD_REQUEST));
+            return null;
+        }
+        else{
+            return userInfo;
+        }
+    }
     @PostMapping("/member/save")    // name값을 requestparam에 담아온다
     public String save(@ModelAttribute MemberDTO memberDTO, HttpServletResponse response) {
         System.out.println("MemberController.save");
