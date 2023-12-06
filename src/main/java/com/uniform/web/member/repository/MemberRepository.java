@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface MemberRepository extends JpaRepository<MemberEntity, Long>
 {
     public boolean existsByMemberId(String user_id); //existByMemberId 클래스 정의
+
+    MemberEntity findAllByMemberId(String user_id);
 }
