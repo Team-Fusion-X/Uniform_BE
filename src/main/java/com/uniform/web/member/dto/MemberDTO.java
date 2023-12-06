@@ -1,10 +1,12 @@
 package com.uniform.web.member.dto;
 
+import com.uniform.web.member.controller.MemberController;
 import com.uniform.web.member.entity.MemberEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.http.ResponseEntity;
 
 @Getter
 @Setter
@@ -31,6 +33,14 @@ public class MemberDTO { //회원 정보를 필드로 정의
     public boolean isPasswordMatch() {
         // 비밀번호와 비밀번호 확인이 일치하는지 확인
         return memberPassword != null && memberPassword.equals(memberPasswordCheck);
+    }
+    public static MemberDTO responseMemDTO(MemberEntity memberEntity){
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.memberId = memberEntity.getMemberId();
+        memberDTO.memberName = memberEntity.getMemberName();
+        memberDTO.memberPassword = memberEntity.getMemberPassword();
+        memberDTO.memberPhoneNumber = memberEntity.getMemberPhoneNumber();
+        return memberDTO;
     }
 
 }

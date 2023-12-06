@@ -6,6 +6,7 @@ import com.uniform.web.member.entity.MemberLogEntity;
 import com.uniform.web.member.repository.MemberLogRepository;
 import com.uniform.web.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -38,5 +39,14 @@ public class MemberService {
     }
     public boolean isExistId(MemberDTO memberDTO){
         return memberRepository.existsByMemberId(memberDTO.getMemberId()); //MemberRepository에 정의 한 함수이용
+    }
+    public MemberDTO FindByMemberId(String memberId){
+        MemberDTO memberDTO = new MemberDTO();
+        MemberEntity memberEntity = memberRepository.findAllByMemberId(memberId);
+        memberDTO.setMemberId(memberId);
+        memberDTO.setMemberPassword((memberEntity.getMemberPassword()));
+        memberDTO.setMemberName(memberEntity.getMemberId());
+        memberDTO.setMemberPhoneNumber(memberEntity.getMemberPhoneNumber());
+        return memberDTO;
     }
 }

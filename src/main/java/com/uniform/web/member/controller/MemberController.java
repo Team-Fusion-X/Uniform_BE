@@ -1,12 +1,16 @@
 package com.uniform.web.member.controller;
 
 import com.uniform.web.member.dto.MemberDTO;
+import com.uniform.web.member.entity.MemberEntity;
+import com.uniform.web.member.repository.MemberRepository;
 import com.uniform.web.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,13 +20,14 @@ public class MemberController {
 
     // 생성자 주입
     private final MemberService memberService;
-
+    private MemberRepository memberRepository;
     // 회원가입 페이지 출력 요청
     @GetMapping("/member/save")
     public String saveForm() {
         return "save";
     }
-
+    @GetMapping("/auth/my")
+    public String userCheckFrom(){return "userCheck";}
     @PostMapping("/member/save")    // name값을 requestparam에 담아온다
     public String save(@ModelAttribute MemberDTO memberDTO, HttpServletResponse response) {
         System.out.println("MemberController.save");
@@ -44,4 +49,11 @@ public class MemberController {
         // 여기 200 리퀘스트로 변경하기만 하면 됨
         return "hello";
     }
+    @PostMapping("/auth/my")
+    @ResponseBody
+    public MemberDTO checkMember(@ModelAttribute MemberDTO memberDTO, HttpServletResponse response){
+        String memberId = memberDTO.getMemberId();
+        return memberService.FindByMemberId(memberId);
+    }
+
 }
