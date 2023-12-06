@@ -40,7 +40,7 @@ public class MemberService {
     public boolean isExistId(MemberDTO memberDTO){
         return memberRepository.existsByMemberId(memberDTO.getMemberId()); //MemberRepository에 정의 한 함수이용
     }
-    public MemberDTO FindByMemberId(String memberId){
+    public MemberDTO FindByMemberId(String memberId){ //정보 조회 부분
         MemberDTO memberDTO = new MemberDTO();
         MemberEntity memberEntity = memberRepository.findAllByMemberId(memberId);
         memberDTO.setMemberId(memberId);
