@@ -1,3 +1,5 @@
+server:
+  port: 3000
 # database 연동 설정
 spring:
   datasource:
