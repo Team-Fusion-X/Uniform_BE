@@ -1,4 +1,4 @@
-name: java-springboot
+name: uniform-be
 app: java@8
 options:
   ports: 8080
