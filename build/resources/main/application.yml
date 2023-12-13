@@ -1,5 +1,10 @@
+server:
+  port: 3000
 # database 연동 설정
 spring:
+  http:
+    encoding:
+      charset: UTF-8
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://orion.mokpo.ac.kr:8382/uniformDB?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
