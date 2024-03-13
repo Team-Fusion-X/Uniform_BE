@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uniform.web.AdmsissionInform.entity.AnalysisData;
 import com.uniform.web.AdmsissionInform.entity.SchoolInfo;
 import com.uniform.web.AdmsissionInform.entity.gpaData;
+import com.uniform.web.AdmsissionInform.AdmissionInformService.AdmissionInformService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,15 +16,15 @@ public class AdmissionInformController {
 //        return null;
 //    }
     @PostMapping("/analysis")
-    public SchoolInfo.Scores checkInform(@RequestBody SchoolInfo schoolInfo){
-
+    public gpaData checkInform(@RequestBody SchoolInfo schoolInfo){
+        AdmissionInformService admissionInformService = new AdmissionInformService();
         if (schoolInfo != null &&
                 schoolInfo.getScores() != null &&
                 schoolInfo.getScores().getFirstYearFirstSemester() != null &&
                 schoolInfo.getScores().getFirstYearFirstSemester().size() > 1) {
-            System.out.println(schoolInfo.getScores().getFirstYearFirstSemester().get(1).getCurriculum());
+            gpaData data = admissionInformService.calGPA(schoolInfo);
             // 안전하게 접근
-            return schoolInfo.getScores();
+            return data;
         } else {
             // 처리할 수 없는 경우에 대한 로직 추가
             return null;
