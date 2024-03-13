@@ -17,6 +17,8 @@ public class gpaData {
     private double allSubjectAvg;
     @JsonProperty("ScienceAvg")
     private double scienceAvg;
+    @JsonProperty("SocialAvg")
+    private double SocialAvg;
     @JsonProperty("school")
     public String getSchool() {
         return school;
@@ -64,5 +66,14 @@ public class gpaData {
     @JsonProperty("ScienceAvg")
     public void setScienceAvg(double scienceAvg) {
         this.scienceAvg = scienceAvg;
+    }
+
+    @JsonProperty("SocialAvg")
+    public double getSocialAvg() {
+        return SocialAvg;
+    }
+    @JsonProperty("SocialAvg")
+    public void setSocialAvg(double socialAvg) {
+        SocialAvg = socialAvg;
     }
 }
