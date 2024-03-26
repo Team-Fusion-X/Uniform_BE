@@ -29,7 +29,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-devtools'
 	implementation 'org.apache.commons:commons-math3:3.6.1'
 	implementation 'org.jetbrains:annotations:24.0.0'
-
+	implementation 'org.apache.commons:commons-math3:3.6.1'
 	implementation 'io.github.flashvayne:chatgpt-spring-boot-starter:1.0.4'
 
 	runtimeOnly 'com.mysql:mysql-connector-j'
