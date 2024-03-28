@@ -11,8 +11,13 @@ public class SchoolInfo {
     @JsonProperty("preferredMajor")
     private String Major;
 
+    @JsonProperty("type")
+    public String type;
+
     @JsonProperty("grade")
     private Scores scores;
+
+
 
     @JsonProperty("preferredSchool")
     public String getSchool() {
@@ -37,6 +42,15 @@ public class SchoolInfo {
     @JsonProperty("grade")
     public Scores getScores() {
         return scores;
+    }
+
+    @JsonProperty("type")
+    public void setType(String type) {
+        this.type = type;
+    }
+    @JsonProperty("type")
+    public String getType() {
+        return type;
     }
 
     @JsonProperty("grade")
@@ -188,6 +202,7 @@ public class SchoolInfo {
         public void setRawScore(double rawScore) {
             this.rawScore = rawScore;
         }
+
     }
 
 }

@@ -1,8 +1,6 @@
 package com.uniform.web.AdmsissionInform.AdmissionInformService;
-import com.uniform.web.AdmsissionInform.entity.AnalysisData;
 import com.uniform.web.AdmsissionInform.entity.SchoolInfo;
 import com.uniform.web.AdmsissionInform.entity.gpaData;
-import org.apache.commons.math3.*;
 import org.apache.commons.math3.special.Erf;
 
 import java.util.*;
@@ -13,7 +11,6 @@ import static java.util.stream.Collectors.*;
 
 public class AdmissionInformService {
     public gpaData calGPA(SchoolInfo schoolInfo) {
-        gpaData data = new gpaData();
         //1학년 성적(1학기,2학기)
         List<List<SchoolInfo.SubjectScore>> allYearScores = new ArrayList<>();
         allYearScores.add(schoolInfo.getScores().getFirstYearFirstSemester());
@@ -22,27 +19,21 @@ public class AdmissionInformService {
         allYearScores.add(schoolInfo.getScores().getSecondYearSecondSemester());
         allYearScores.add(schoolInfo.getScores().getThirdYearFirstSemester());
         allYearScores.add(schoolInfo.getScores().getThirdYearSecondSemester());
-
+        List<Object> data_list = new ArrayList<>();
+        data_list.add(schoolInfo.getSchool());
+        data_list.add(schoolInfo.getMajor());
+        data_list.add(schoolInfo.getType());
         //전과목
-        double allSubjecGrade = getAllSubjecGrade(allYearScores);
+        data_list.add(getAllSubjecGrade((allYearScores)));
         //국영수사
-        double social = getSubjectGrade(allYearScores, "사회");
-        //국영수탐
-        double research = getSubjectGrade(allYearScores, "탐구");
+        data_list.add(getSubjectGrade(allYearScores,"사회"));
         //국영수과
-        double science = getSubjectGrade(allYearScores, "과학");
+        data_list.add(getSubjectGrade(allYearScores, "과학"));
         //국영수탐(백분위)
-        double percentile = calPercentile(allYearScores);
-
-        data.setPrecen(percentile);
-        data.setResearchAvg(research);
-        data.setSocialAvg(social);
-        data.setScienceAvg(science);
-        data.setAllSubjectAvg(allSubjecGrade);
-
-        data.setSchool(schoolInfo.getSchool());
-        data.setMajor(schoolInfo.getMajor());
-
+        data_list.add(calPercentile(allYearScores)*100);
+        //국영수탐
+       data_list.add(getSubjectGrade(allYearScores, "탐구"));
+        gpaData data = new gpaData(data_list);
         return data;
     }
 
