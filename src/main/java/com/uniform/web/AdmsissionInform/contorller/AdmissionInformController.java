@@ -30,17 +30,6 @@ public class AdmissionInformController {
             return null;
         }
 }
-    @PostMapping("/analysis/gpa/test")
-    public gpaData gpatest(){
-        gpaData gpaData = new gpaData();
-        gpaData.setMajor("컴공과");
-        gpaData.setSchool("개쩌는 학교");
-        gpaData.setAllSubjectAvg(1.11);
-        gpaData.setPrecen(1.2);
-        gpaData.setResearchAvg(1.2);
-        gpaData.setScienceAvg(1.222);
-        return gpaData;
-    }
     @GetMapping("/analysis/test")
     public AnalysisData test(@RequestBody SchoolInfo schoolInfo){
         AnalysisData analysisData = new AnalysisData();
