@@ -354,6 +354,7 @@ public class AdmissionInformService {
 
 
 //    }
+    //국어 영어 수학 탐구 과목의 백분위를 반환하는 함수
     public static double calPercentile(List<List<SchoolInfo.SubjectScore>> subjects){
         double tmp = 0.0;
         double tmp2 = 0.0;

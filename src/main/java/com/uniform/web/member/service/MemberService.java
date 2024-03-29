@@ -1,5 +1,6 @@
 package com.uniform.web.member.service;
 
+import com.uniform.web.member.dto.LoginDTO;
 import com.uniform.web.member.dto.MemberDTO;
 import com.uniform.web.member.entity.MemberEntity;
 import com.uniform.web.member.entity.MemberLogEntity;
@@ -51,5 +52,17 @@ public class MemberService {
         else{
             return null;
         }
-}
+    }
+
+    //로그인을 수행하는 함수
+    public String memberLogin(LoginDTO loginDTO){
+        MemberEntity memberEntity = memberRepository.findAllByMemberId(loginDTO.getMember_id());
+        if (memberEntity == null){
+            return null;
+        }
+        else if(!memberEntity.getMemberPassword().equals(loginDTO.getMember_password())){
+            return null;
+        }
+        return memberEntity.getMemberId();
+    }
 }

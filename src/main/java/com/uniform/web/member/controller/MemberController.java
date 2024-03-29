@@ -1,7 +1,11 @@
 package com.uniform.web.member.controller;
 
+import com.uniform.web.member.dto.LoginDTO;
 import com.uniform.web.member.dto.MemberDTO;
 import com.uniform.web.member.service.MemberService;
+import com.uniform.web.member.sessionKey.SessionConst;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,5 +60,23 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("{\"data\": \"회원가입에 실패하였습니다.\"}");
         }
+    }
+    //로그인 컨트롤러 함수
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO, HttpServletResponse response, HttpServletRequest request){
+        String memberLogin = memberService.memberLogin(loginDTO);
+        System.out.println(memberLogin);
+        if (memberLogin == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"data\" : \"fail\"");
+        }
+        //로그인 성공
+        HttpSession session = request.getSession();
+        //세션에 로그인 정보 저장
+        session.setAttribute(SessionConst.LOGIN_MEMBER,memberLogin);
+        System.out.println(session.getId());
+        return ResponseEntity.status(HttpStatus.OK).body("{\n" +
+                "\"data\" : \"success\",\n" +
+                "\"sessionId:\""+session.getId()+"\"\n" +
+                "}");
     }
 }
