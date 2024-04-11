@@ -22,8 +22,6 @@ public class MemberEntity { //table 역할
     private String memberName;
     @Column(name = "user_pw", nullable = false, length = 20)
     private String memberPassword;
-    @Column(name = "phone_number", nullable = false, length = 11)
-    private String memberPhoneNumber;
     @Column(name = "user_join_date", nullable = false)
     private LocalDateTime memberJoinDate;
 
@@ -33,7 +31,6 @@ public class MemberEntity { //table 역할
         memberEntity.setMemberId(memberDTO.getMemberId());
         memberEntity.setMemberName(memberDTO.getMemberName());
         memberEntity.setMemberPassword(memberDTO.getMemberPassword());
-        memberEntity.setMemberPhoneNumber(memberDTO.getMemberPhoneNumber());
         memberEntity.setMemberJoinDate(LocalDateTime.now());
         return memberEntity;
     }
