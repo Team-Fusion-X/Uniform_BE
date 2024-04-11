@@ -46,7 +46,6 @@ public class MemberService {
             memberDTO.setMemberId(memberId);
             memberDTO.setMemberPassword((memberEntity.getMemberPassword()));
             memberDTO.setMemberName(memberEntity.getMemberId());
-            memberDTO.setMemberPhoneNumber(memberEntity.getMemberPhoneNumber());
             return memberDTO;
         }
         else{
