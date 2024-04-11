@@ -22,13 +22,6 @@ public class MemberController {
     // 생성자 주입
     private final MemberService memberService;
 
-    // 회원가입 페이지 출력 요청
-    @GetMapping("/save")
-    public String saveForm() {
-        return "save";
-    }
-    @GetMapping("/check")
-    public String checkForm(){ return "check"; }
     @PostMapping("/check")
     public ResponseEntity<?> checkMember(@RequestBody MemberDTO memberDTO, HttpServletResponse response) {
         String memberId = memberDTO.getMemberId();
@@ -42,11 +35,6 @@ public class MemberController {
     }
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody MemberDTO memberDTO, HttpServletResponse response) {
-        if (!memberDTO.isPasswordMatch()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("{\"data\": \"비밀번호가 일치하지 않습니다.\"}");
-        }
-
         if (memberService.isExistId(memberDTO)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("{\"data\": \"이미 존재하는 아이디입니다.\"}");
@@ -65,7 +53,6 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO, HttpServletResponse response, HttpServletRequest request){
         String memberLogin = memberService.memberLogin(loginDTO);
-        System.out.println(memberLogin);
         if (memberLogin == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"data\" : \"fail\"");
         }
@@ -73,7 +60,6 @@ public class MemberController {
         HttpSession session = request.getSession();
         //세션에 로그인 정보 저장
         session.setAttribute(SessionConst.LOGIN_MEMBER,memberLogin);
-        System.out.println(session.getId());
         return ResponseEntity.status(HttpStatus.OK).body("{\n" +
                 "\"data\" : \"success\",\n" +
                 "\"sessionId:\""+session.getId()+"\"\n" +
