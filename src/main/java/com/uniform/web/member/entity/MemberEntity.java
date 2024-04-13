@@ -1,6 +1,7 @@
 package com.uniform.web.member.entity;
 
 import com.uniform.web.member.dto.MemberDTO;
+import com.uniform.web.member.repository.MemberRepository;
 import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,5 +35,9 @@ public class MemberEntity { //table 역할
         memberEntity.setMemberJoinDate(LocalDateTime.now());
         return memberEntity;
     }
+    public static String getMember_id(String id){
+        final MemberRepository memberRepository = ;
+        MemberEntity memberEntity = memberRepository.findAllByMemberId(id);
 
+    }
 }
