@@ -45,11 +45,11 @@ public class AdmissionInformController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Error\"");
         }
 }
-    @GetMapping("/save")
-    public ResponseEntity<?> saveScore(@RequestBody SchoolInfo schoolInfo){
-
-
-    }
+//    @GetMapping("/save")
+//    public ResponseEntity<?> saveScore(@RequestBody SchoolInfo schoolInfo){
+//
+//
+//    }
     @GetMapping("/analysis/test")
     public AnalysisData test(@RequestBody SchoolInfo schoolInfo){
         AnalysisData analysisData = new AnalysisData();

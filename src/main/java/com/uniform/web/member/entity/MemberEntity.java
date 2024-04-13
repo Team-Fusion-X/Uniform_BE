@@ -35,9 +35,5 @@ public class MemberEntity { //table 역할
         memberEntity.setMemberJoinDate(LocalDateTime.now());
         return memberEntity;
     }
-    public static String getMember_id(String id){
-        final MemberRepository memberRepository = ;
-        MemberEntity memberEntity = memberRepository.findAllByMemberId(id);
 
-    }
 }
