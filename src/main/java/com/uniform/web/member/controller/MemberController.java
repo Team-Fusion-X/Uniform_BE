@@ -2,6 +2,7 @@ package com.uniform.web.member.controller;
 
 import com.uniform.web.member.dto.LoginDTO;
 import com.uniform.web.member.dto.MemberDTO;
+import com.uniform.web.member.dto.sessionDTO;
 import com.uniform.web.member.service.MemberService;
 import com.uniform.web.member.sessionKey.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;
@@ -58,11 +59,10 @@ public class MemberController {
         }
         //로그인 성공
         HttpSession session = request.getSession();
+        sessionDTO sessionInform = new sessionDTO();
+        sessionInform.setSessionId(session.getId());
         //세션에 로그인 정보 저장
         session.setAttribute(SessionConst.LOGIN_MEMBER,memberLogin);
-        return ResponseEntity.status(HttpStatus.OK).body("{\n" +
-                "\"data\" : \"success\",\n" +
-                "\"sessionId:\""+session.getId()+"\"\n" +
-                "}");
+        return ResponseEntity.status(HttpStatus.OK).body(sessionInform);
     }
 }
