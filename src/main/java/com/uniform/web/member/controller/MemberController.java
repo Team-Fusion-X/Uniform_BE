@@ -54,7 +54,7 @@ public class MemberController {
     public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO, HttpServletResponse response, HttpServletRequest request){
         String memberLogin = memberService.memberLogin(loginDTO);
         if (memberLogin == null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"data\" : \"fail\"");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"data\" : \"fail\"}");
         }
         //로그인 성공
         HttpSession session = request.getSession();

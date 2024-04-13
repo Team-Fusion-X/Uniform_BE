@@ -19,10 +19,10 @@ public class scoreEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int score_id;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "MemberEntity")
-    @Column(name = "user_id")
-    private String user_id = MemberEntity.
+//    @OneToOne(cascade = CascadeType.REMOVE)
+//    @JoinColumn(name = "MemberEntity")
+//    @Column(name = "user_id")
+//    private String user_id = MemberEntity.
 
 
 

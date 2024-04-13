@@ -55,11 +55,11 @@ public class MemberService {
 
     //로그인을 수행하는 함수
     public String memberLogin(LoginDTO loginDTO){
-        MemberEntity memberEntity = memberRepository.findAllByMemberId(loginDTO.getMember_id());
+        MemberEntity memberEntity = memberRepository.findAllByMemberId(loginDTO.getData());
         if (memberEntity == null){
             return null;
         }
-        else if(!memberEntity.getMemberPassword().equals(loginDTO.getMember_password())){
+        else if(!memberEntity.getMemberPassword().equals(loginDTO.getPassword())){
             return null;
         }
         return memberEntity.getMemberId();
