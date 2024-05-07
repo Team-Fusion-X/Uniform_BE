@@ -2,6 +2,7 @@ package com.uniform.web.AdmsissionInform.contorller;
 
 import com.uniform.web.AdmsissionInform.AdmissionInformService.SubjectSaveService;
 import com.uniform.web.AdmsissionInform.AdmissionInformService.mappingJson.GetScore;
+import com.uniform.web.AdmsissionInform.AdmissionInformService.mappingJson.WrappingGetScore;
 import com.uniform.web.AdmsissionInform.AdmissionInformService.mappingJson.postScore;
 import com.uniform.web.AdmsissionInform.Repository.ScoreRepository;
 import com.uniform.web.AdmsissionInform.entity.*;
@@ -132,7 +133,9 @@ public class AdmissionInformController {
             tmp.setCredit(scoreEntity.getCredit());
             getScores.add(tmp);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(getScores);
+        WrappingGetScore wrappingGetScore = new WrappingGetScore();
+        wrappingGetScore.setGetScores(getScores);
+        return ResponseEntity.status(HttpStatus.OK).body(wrappingGetScore);
 
     }
 
