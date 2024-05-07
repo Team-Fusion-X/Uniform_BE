@@ -60,7 +60,7 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.UniformApplication.executor": "Run",
-    "git-widget-placeholder": "donghyo__insert__load__score",
+    "git-widget-placeholder": "donghyo__fix__load__scores",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/sw/Documents/GitHub/uniform_be",
     "node.js.detected.package.eslint": "true",
@@ -99,7 +99,7 @@
       <updated>1715075630300</updated>
       <workItem from="1715075632498" duration="310000" />
       <workItem from="1715081435688" duration="7545000" />
-      <workItem from="1715094276021" duration="874000" />
+      <workItem from="1715094276021" duration="4392000" />
     </task>
     <servers />
   </component>
