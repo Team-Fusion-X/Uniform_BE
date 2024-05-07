@@ -1,6 +1,6 @@
 package com.uniform.web.AdmsissionInform.dto;
 
-import com.uniform.web.AdmsissionInform.entity.SubjectEntity;
+import com.uniform.web.AdmsissionInform.entity.SubjectsEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,11 +13,11 @@ public class SubjectDTO {
     private String curriculum;
     private String subject;
 
-    public static SubjectDTO toSubjectDTO(SubjectEntity subjectEntity){
+    public static SubjectDTO toSubjectDTO(SubjectsEntity subjectsEntity){
         SubjectDTO subjectDTO = new SubjectDTO();
-        subjectDTO.setSubject_id(subjectEntity.getSubject_id());
-        subjectDTO.setCurriculum(subjectEntity.getCurriculum());
-        subjectDTO.setSubject(subjectEntity.getSubject());
+        subjectDTO.setSubject_id(subjectsEntity.getSubjectId());
+        subjectDTO.setCurriculum(subjectsEntity.getCurriculum());
+        subjectDTO.setSubject(subjectsEntity.getSubject());
         return subjectDTO;
     }
 }
