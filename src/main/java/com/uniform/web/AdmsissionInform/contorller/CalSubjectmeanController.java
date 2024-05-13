@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class CalSubjectmeanController {
     private final ScoreRepository scoreRepository;
     private final CalSubjectMeanService calSubjectMeanService;
-    @GetMapping("/average")
+    @PostMapping("/average")
     public ResponseEntity<?> calMean(@RequestBody WrappingSubjectScore wrappingSubjectScore, HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession(false);
         if (session == null) {
