@@ -368,7 +368,7 @@ public class AdmissionInformService {
             for (String s : subjectName) {
                 tmp = 0.0;
                 int count = 0;
-                List<Double>  originalScore = subjects.get(i).stream()
+                List<Double> originalScore = subjects.get(i).stream()
                         .filter(x -> x.getCurriculum().contains(s))
                         .map(x -> x.getRawScore())
                         .collect(Collectors.toList());
