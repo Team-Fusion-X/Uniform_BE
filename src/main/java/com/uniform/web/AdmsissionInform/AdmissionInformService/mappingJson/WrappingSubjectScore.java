@@ -10,5 +10,5 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class WrappingSubjectScore {
-    List<SubjectScore> scores;
+    private List<SubjectScore> scores;
 }

@@ -474,7 +474,7 @@ public class AdmissionInformService {
             tmp = 0;
             creditCount = 0;
             tmp += subjects.get(i).stream().mapToInt(x -> x.getCredits() * x.getRank()).sum();
-            tmp += subjects.get(i + 1).stream().mapToInt(x->x.getRank() * x.getRank()).sum();
+            tmp += subjects.get(i + 1).stream().mapToInt(x->x.getRank() * x.getCredits()).sum();
 
             creditCount += subjects.get(i).stream().mapToInt(x -> x.getCredits()).sum();
             creditCount += subjects.get(i+1).stream().mapToInt(x -> x.getCredits()).sum();

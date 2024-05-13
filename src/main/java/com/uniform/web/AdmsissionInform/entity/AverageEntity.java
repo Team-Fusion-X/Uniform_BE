@@ -32,7 +32,7 @@ public class AverageEntity {
     @Column(name = "kemso_degree")
     private double kemsoDegree;
 
-    @Column(name = "all_subject_degree")
+    @Column(name = "all_subjects_degree")
     private double allSubjectDegree;
 
 }

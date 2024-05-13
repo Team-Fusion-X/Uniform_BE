@@ -13,7 +13,7 @@ public class ScoreEntity {
     @Id
     @Column(name = "score_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int score_id;
+    private int scoreId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -21,23 +21,23 @@ public class ScoreEntity {
 
     @ManyToOne
     @JoinColumn(name = "school_year_id")
-    private SchoolYearEntity school_year_id;
+    private SchoolYearEntity schoolYearId;
 
     @ManyToOne
     @JoinColumn(name = "subject_id")
-    private SubjectsEntity subject_id;
+    private SubjectsEntity subjectId;
 
-    @Column(name = "Credit")
+    @Column(name = "credit")
     private int Credit;
 
     @Column(name = "raw_score")
-    private double raw_score;
+    private double rawScore;
 
     @Column(name = "subject_average")
-    private double subject_average;
+    private double subjectAverage;
 
     @Column(name = "standard_deviation")
-    private double standard_deviation;
+    private double standardDeviation;
 
     @Column(name = "headcount")
     private int headcount;

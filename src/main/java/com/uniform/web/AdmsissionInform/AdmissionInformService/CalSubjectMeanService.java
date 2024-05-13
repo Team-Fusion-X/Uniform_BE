@@ -6,14 +6,14 @@ import com.uniform.web.AdmsissionInform.Repository.AverageRepository;
 import com.uniform.web.AdmsissionInform.Repository.ScoreRepository;
 import com.uniform.web.AdmsissionInform.dto.ScoreDTO;
 import com.uniform.web.AdmsissionInform.entity.AverageEntity;
+import com.uniform.web.member.entity.MemberEntity;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.math3.special.Erf;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +26,7 @@ public class CalSubjectMeanService {
         }
         return (subjectScores.stream()
                 .filter(x->x.getSchoolYear() == grade)
-                .mapToDouble(x->x.getRawScore() * x.getCredit())
+                .mapToDouble(x->x.getCredit() * x.getRanking())
                 .sum()/subjectScores.stream()
                 .filter(x->x.getSchoolYear() == grade)
                 .mapToInt(SubjectScore::getCredit)
@@ -34,23 +34,26 @@ public class CalSubjectMeanService {
     }
     public double sumSubjectScoredCredit(List<SubjectScore> subjectScores,int grade,double weight,String subject){
         List<String> subjects = Arrays.asList("국어","영어","수학");
+        List<String> modifiedSubject1 = new ArrayList<>(subjects);
         if (subject.equals("탐구")){
-            subjects.add("과학");
-            subjects.add("사회");
+            modifiedSubject1.add("과학");
+            modifiedSubject1.add("사회");
         }
         else {
-            subjects.add(subject);
+            modifiedSubject1.add(subject);
         }
-        if (subjectScores.stream().noneMatch(x->x.getSchoolYear() == grade && subjects.contains(x.getCurriculum()))){
+        if (subjectScores.stream().noneMatch(x->x.getSchoolYear() == grade && modifiedSubject1.contains(x.getCurriculum()))){
             return -1;
         }
-        return (subjectScores.stream()
-                .filter(x->x.getSchoolYear() == grade && subjects.contains(x.getCurriculum()))
-                .mapToDouble(x->x.getRawScore() * x.getCredit())
-                .sum()/subjectScores.stream()
-                .filter(x->x.getSchoolYear() == grade && subjects.contains(x.getCurriculum()))
+        double creditScore = subjectScores.stream()
+                .filter(x->x.getSchoolYear() == grade && modifiedSubject1.contains(x.getCurriculum()))
+                .mapToDouble(x->x.getCredit() * x.getRanking())
+                .sum();
+        double creditSum = subjectScores.stream()
+                .filter(x->x.getSchoolYear() == grade && modifiedSubject1.contains(x.getCurriculum()))
                 .mapToInt(SubjectScore::getCredit)
-                .sum())*weight;
+                .sum();
+        return (creditScore/creditSum) * weight;
     }
     public double calPercentile(List<SubjectScore> subjectScores){
         List<String> subject = Arrays.asList("국어","영어","수학","과학","사회");
@@ -58,36 +61,40 @@ public class CalSubjectMeanService {
         double first = 0.0;
         double second = 0.0;
         int count = 0;
+        Stream<SubjectScore> subjectScoreStream = subjectScores.stream().filter(x->subject.contains(x.getCurriculum()));
         for (int i = 1; i < 4; i++) {
             first += compileData(subjectScores,i,1,subject)/2;
             second += compileData(subjectScores,i,2,subject)/2;
             if (first == 0.0){
-                count -= 1;
                 break;
             } else if (second == 0.0) {
-                count += 1;
                 result += first;
+                break;
             }
             else{
-                count += 1;
                 result += (first+second)/2;
             }
-
         }
-        return result/count;
+        if (subjectScoreStream.filter(x->x.getSchoolYear() == 1).count() != 0){
+            count += 1;
+        }
+        subjectScoreStream = subjectScores.stream().filter(x->subject.contains(x.getCurriculum()));
+        if (subjectScoreStream.filter(x->x.getSchoolYear() == 2).count() != 0) {
+            count += 1;
+        }
+        subjectScoreStream = subjectScores.stream().filter(x->subject.contains(x.getCurriculum()));
+        if (subjectScoreStream.filter(x->x.getSchoolYear() == 3).count() != 0) {
+            count += 1;
+        }
+
+        return (result/count)*100;
     }
     public double compileData(List<SubjectScore> subjectScores,int grade,int term,List<String> subjects){
-        if (subjectScores.stream()
-                .noneMatch(x->subjects.contains(x.getCurriculum()) &&
-                        x.getSchoolYear() == grade &&
-                        x.getSchoolTerm() == term)){
-                return -1;
-        }
         return subjectScores.stream()
                 .filter(x->subjects.contains(x.getCurriculum()) && x.getSchoolYear() == grade)
                 .filter(x->x.getSchoolTerm() == term)
-                .mapToDouble(x->calculatePercentile(x.getRawScore(),x.getSubjectMean(),x.getStandardDeviation()))
-                .sum()/subjectScores.stream().filter(x->subjects.contains(x.getCurriculum())&&x.getSchoolYear()==grade).count();
+                .mapToDouble(x->calculatePercentile(x.getRawScore(),x.getSubjectMean(),x.getSdeviation()))
+                .sum();
     }
     public double calculatePercentile(double originalScore, double mean, double standardDeviation) {
         //표준 점수 계산
@@ -99,7 +106,7 @@ public class CalSubjectMeanService {
     public double cumulativeProbability(double x) {
         return (1.0 + Erf.erf(x / Math.sqrt(2.0))) / 2.0;
     }
-    public int calAllSubject(WrappingSubjectScore wrappingSubjectScore){
+    public int calAllSubject(WrappingSubjectScore wrappingSubjectScore, MemberEntity memberEntity){
         AverageEntity averageEntity = new AverageEntity();
 
         List<SubjectScore> subjectScores = wrappingSubjectScore.getScores();
@@ -113,50 +120,74 @@ public class CalSubjectMeanService {
         //국영수탐 백분위 결과 저장 변수
         double kemr_percentile = 0.0;
         //전과목
-        int count = 1;
+        double count = 0.0;
         double tmp = 0.0;
         for (int i = 1; i < 4; i++) {
             double weight = 0.0;
             if (i == 3){
-                weight = 0.3;
+                weight = 0.4;
             }
             else{
-                weight = 0.4;
+                weight = 0.3;
             }
             tmp = sumAllScoreCredit(subjectScores,i,weight);
             if (tmp == -1){
                 break;
             }
-            allGrade += tmp*weight;
+            allGrade += tmp;
+        }
+        if (subjectScores.stream().filter(x->x.getSchoolYear() == 1).count() != 0){
             count += 1;
+        }
+        if (subjectScores.stream().filter(x->x.getSchoolYear() == 2).count() != 0) {
+            count+=1;
+        }
+        if (subjectScores.stream().filter(x->x.getSchoolYear() == 3).count() != 0) {
+            count+=1;
         }
         averageEntity.setAllSubjectDegree(allGrade/count);
 
-
         //국영수탐
-        count = 1;
+        Stream<SubjectScore> subjectScoreStream = subjectScores.stream().filter(x -> x.getCurriculum().equals("과학") || x.getCurriculum().equals("국어") ||
+                x.getCurriculum().equals("영어") || x.getCurriculum().equals("수학")||x.getCurriculum().equals("사회"));
+        count = 0.0;
         tmp = 0.0;
         for (int i = 1; i < 4; i++) {
             double weight = 0.0;
             if (i == 3){
-                weight = 0.3;
+                weight = 0.4;
             }
             else{
-                weight = 0.4;
+                weight = 0.3;
             }
             tmp = sumSubjectScoredCredit(subjectScores,i,weight,"탐구");
             if (tmp == -1){
                 break;
             }
-            kemr += tmp*weight;
+            kemr += tmp;
+        }
+        if (subjectScoreStream.filter(x->x.getSchoolYear() == 1).count() != 0){
             count += 1;
         }
-        averageEntity.setAllSubjectDegree(kemr/count);
+        subjectScoreStream = subjectScores.stream().filter(x -> x.getCurriculum().equals("과학") || x.getCurriculum().equals("국어") ||
+                x.getCurriculum().equals("영어") || x.getCurriculum().equals("수학")||x.getCurriculum().equals("사회"));
+        if (subjectScoreStream.filter(x->x.getSchoolYear() == 2).count() != 0) {
+            count+=1;
+        }
+        subjectScoreStream = subjectScores.stream().filter(x -> x.getCurriculum().equals("과학") || x.getCurriculum().equals("국어") ||
+                x.getCurriculum().equals("영어") || x.getCurriculum().equals("수학")||x.getCurriculum().equals("사회"));
+        if (subjectScoreStream.filter(x->x.getSchoolYear() == 3).count() != 0) {
+            count+=1;
+        }
+        averageEntity.setKemrDegree(kemr/count);
         //국영수탐(백분위)
-        averageEntity.setKemrPercentile(calPercentile(subjectScores));
+        tmp = calPercentile(subjectScores);
+        averageEntity.setKemrPercentile(tmp);
 
         //국영수과
-        count = 1;
+        count = 0.0;
+        subjectScoreStream = subjectScores.stream().filter(x -> x.getCurriculum().equals("과학") || x.getCurriculum().equals("국어") ||
+                x.getCurriculum().equals("영어") || x.getCurriculum().equals("수학"));
         tmp = 0.0;
         for (int i = 1; i < 4; i++) {
             double weight = 0.0;
@@ -170,14 +201,28 @@ public class CalSubjectMeanService {
             if (tmp == -1){
                 break;
             }
-            count += 1;
-            kems += tmp * weight;
+            kems += tmp;
         }
-        averageEntity.setAllSubjectDegree(kems/count);
-
+        if (subjectScoreStream.filter(x->x.getSchoolYear() == 1).count() != 0){
+            count += 1;
+        }
+        subjectScoreStream = subjectScores.stream().filter(x -> x.getCurriculum().equals("과학") || x.getCurriculum().equals("국어") ||
+                x.getCurriculum().equals("영어") || x.getCurriculum().equals("수학"));
+        if (subjectScoreStream.filter(x->x.getSchoolYear() == 2).count() != 0) {
+            count+=1;
+        }
+        subjectScoreStream = subjectScores.stream().filter(x -> x.getCurriculum().equals("과학") || x.getCurriculum().equals("국어") ||
+                x.getCurriculum().equals("영어") || x.getCurriculum().equals("수학"));
+        if (subjectScoreStream.filter(x->x.getSchoolYear() == 3).count() != 0) {
+            count+=1;
+        }
+        kems /= count;
+        averageEntity.setKemsDegree(kems);
 
         //국영수사
-        count = 1;
+        subjectScoreStream = subjectScores.stream().filter(x -> x.getCurriculum().equals("사회") || x.getCurriculum().equals("국어") ||
+                x.getCurriculum().equals("영어") || x.getCurriculum().equals("수학"));
+        count = 0;
         tmp = 0.0;
         for (int i = 1; i < 4; i++) {
             double weight = 0.0;
@@ -191,11 +236,27 @@ public class CalSubjectMeanService {
             if (tmp == -1){
                 break;
             }
-            count += 1;
-            kemso += tmp * weight;
+            kemso += tmp;
         }
-        averageEntity.setAllSubjectDegree(kemso/count);
 
+        if (subjectScoreStream.filter(x->x.getSchoolYear() == 1).count() != 0){
+            count += 1;
+        }
+
+        subjectScoreStream = subjectScores.stream().filter(x -> x.getCurriculum().equals("사회") || x.getCurriculum().equals("국어") ||
+                x.getCurriculum().equals("영어") || x.getCurriculum().equals("수학"));
+        if (subjectScoreStream.filter(x->x.getSchoolYear() == 2).count() != 0) {
+            count+=1;
+        }
+
+        subjectScoreStream = subjectScores.stream().filter(x -> x.getCurriculum().equals("사회") || x.getCurriculum().equals("국어") ||
+                x.getCurriculum().equals("영어") || x.getCurriculum().equals("수학"));
+        if (subjectScoreStream.filter(x->x.getSchoolYear() == 3).count() != 0) {
+            count+=1;
+        }
+
+        averageEntity.setKemsoDegree(kemso/count);
+        averageEntity.setUserId(memberEntity);
         try{
             averageRepository.save(averageEntity);
         }
