@@ -57,7 +57,7 @@ public class AdmissionInformController {
         }
 }
     @PostMapping("/score")
-    public ResponseEntity<?> saveScore(@RequestBody postScore PostScore,HttpServletRequest request,HttpServletResponse response){
+    public ResponseEntity<?> saveScore(@RequestBody postScore postScore,HttpServletRequest request,HttpServletResponse response){
         HttpSession session = request.getSession(false);
         if (session == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Invalid Session\"");
@@ -68,16 +68,16 @@ public class AdmissionInformController {
         }
         MemberEntity memberEntity = subjectSaveService.findMemberEntity(memberId);
         ScoreEntity scoreEntity = new ScoreEntity();
-        SubjectsEntity subjectsEntity = subjectSaveService.findSubjectEntity(PostScore.getSubjectName(), PostScore.getCurriculum());
-        SchoolYearEntity schoolYearEntity = subjectSaveService.findSchoolEntity(PostScore.getSchoolYear(),PostScore.getSchoolTerm());
-        scoreEntity.setRawScore(PostScore.getRawScore());
+        SubjectsEntity subjectsEntity = subjectSaveService.findSubjectEntity(postScore.getSubjectName(), postScore.getCurriculum());
+        SchoolYearEntity schoolYearEntity = subjectSaveService.findSchoolEntity(postScore.getSchoolYear(),postScore.getSchoolTerm());
+        scoreEntity.setRawScore(postScore.getRawScore());
         scoreEntity.setUserId(memberEntity);
-        scoreEntity.setCredit(PostScore.getCredit());
-        scoreEntity.setRanking(PostScore.getRanking());
+        scoreEntity.setCredit(postScore.getCredit());
+        scoreEntity.setRanking(postScore.getRanking());
         scoreEntity.setSubjectId(subjectsEntity);
-        scoreEntity.setHeadcount(PostScore.getHeadCount());
-        scoreEntity.setSubjectAverage(PostScore.getSubjectMean());
-        scoreEntity.setStandardDeviation(PostScore.getSDeviation());
+        scoreEntity.setHeadcount(postScore.getHeadCount());
+        scoreEntity.setSubjectAverage(postScore.getSubjectMean());
+        scoreEntity.setStandardDeviation(postScore.getSDeviation());
         scoreEntity.setSchoolYearId(schoolYearEntity);
 
         if (memberEntity == null){
