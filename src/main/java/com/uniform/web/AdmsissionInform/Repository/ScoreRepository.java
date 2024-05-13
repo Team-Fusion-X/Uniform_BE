@@ -10,5 +10,6 @@ import java.util.ArrayList;
 
 @Repository
 public interface ScoreRepository extends JpaRepository<ScoreEntity,Integer> {
-    ArrayList<ScoreEntity> findScoreEntitiesByUserId(MemberEntity userId);
+//    ArrayList<ScoreEntity> findScoreEntitiesByUserId(MemberEntity userId);
+    ArrayList<ScoreEntity> findScoreEntitiesByUserId(String userId);
 }

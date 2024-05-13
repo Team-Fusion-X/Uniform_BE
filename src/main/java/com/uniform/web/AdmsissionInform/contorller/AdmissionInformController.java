@@ -1,9 +1,7 @@
 package com.uniform.web.AdmsissionInform.contorller;
 
-import com.uniform.web.AdmsissionInform.AdmissionInformService.SubjectService;
+import com.uniform.web.AdmsissionInform.AdmissionInformService.SubjectSaveService;
 import com.uniform.web.AdmsissionInform.AdmissionInformService.mappingJson.GetScore;
-import com.uniform.web.AdmsissionInform.AdmissionInformService.mappingJson.GetSubjects;
-import com.uniform.web.AdmsissionInform.AdmissionInformService.mappingJson.WrappingGetScore;
 import com.uniform.web.AdmsissionInform.AdmissionInformService.mappingJson.postScore;
 import com.uniform.web.AdmsissionInform.Repository.ScoreRepository;
 import com.uniform.web.AdmsissionInform.entity.*;
@@ -20,14 +18,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class AdmissionInformController {
-    private final SubjectService subjectService;
+    private final SubjectSaveService subjectSaveService;
     private final ScoreRepository scoreRepository;
     private final MemberRepository memberRepository;
 
@@ -69,10 +65,10 @@ public class AdmissionInformController {
         if (memberId == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Invalid Session\"");
         }
-        MemberEntity memberEntity = subjectService.findMemberEntity(memberId);
+        MemberEntity memberEntity = subjectSaveService.findMemberEntity(memberId);
         ScoreEntity scoreEntity = new ScoreEntity();
-        SubjectsEntity subjectsEntity = subjectService.findSubjectEntity(PostScore.getSubjectName(), PostScore.getCurriculum());
-        SchoolYearEntity schoolYearEntity = subjectService.findSchoolEntity(PostScore.getSchoolYear(),PostScore.getSchoolTerm());
+        SubjectsEntity subjectsEntity = subjectSaveService.findSubjectEntity(PostScore.getSubjectName(), PostScore.getCurriculum());
+        SchoolYearEntity schoolYearEntity = subjectSaveService.findSchoolEntity(PostScore.getSchoolYear(),PostScore.getSchoolTerm());
         scoreEntity.setRaw_score(PostScore.getRawScore());
         scoreEntity.setUserId(memberEntity);
         scoreEntity.setCredit(PostScore.getCredit());
@@ -91,7 +87,7 @@ public class AdmissionInformController {
         if (schoolYearEntity == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"wrong school year\"");
         }
-        if (subjectService.saveScore(scoreEntity)){
+        if (subjectSaveService.saveScore(scoreEntity)){
             return ResponseEntity.status(HttpStatus.OK).body("저장 완료");
         }
         else{
@@ -117,7 +113,8 @@ public class AdmissionInformController {
         if (member == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Invalid Session\"");
         }
-        ArrayList<ScoreEntity> scores = scoreRepository.findScoreEntitiesByUserId(memberRepository.findAllByMemberId(member));
+//        ArrayList<ScoreEntity> scores = scoreRepository.findScoreEntitiesByUserId(memberRepository.findAllByMemberId(member));
+        ArrayList<ScoreEntity> scores = scoreRepository.findScoreEntitiesByUserId(member);
         if (scores == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"empty scores\"");
         }
@@ -136,34 +133,8 @@ public class AdmissionInformController {
             tmp.setCredit(scoreEntity.getCredit());
             getScores.add(tmp);
         }
-        WrappingGetScore wrappingGetScore = new WrappingGetScore();
-        wrappingGetScore.setGetScores(getScores);
-        return ResponseEntity.status(HttpStatus.OK).body(wrappingGetScore);
+        return ResponseEntity.status(HttpStatus.OK).body(getScores);
 
     }
-    @GetMapping("/subject")
-    public ResponseEntity<?> getSubject(HttpServletRequest request){
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Invalid Session\"");
-        }
-        List<SubjectsEntity> subjectsEntities = subjectService.getAllSubjectsEntities();
-        if (subjectsEntities == null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"empty subject\"");
-        }
-        GetSubjects getSubjects = new GetSubjects();
-        getSubjects.set국어(getSubjects.getSubjectList(subjectsEntities,"국어"));
-        getSubjects.set수학(getSubjects.getSubjectList(subjectsEntities,"수학"));
-        getSubjects.set영어(getSubjects.getSubjectList(subjectsEntities,"영어"));
-        getSubjects.set사회(getSubjects.getSubjectList(subjectsEntities,"사회"));
-        getSubjects.set과학(getSubjects.getSubjectList(subjectsEntities,"과학"));
-        getSubjects.set체육(getSubjects.getSubjectList(subjectsEntities,"체육"));
-        getSubjects.set예술(getSubjects.getSubjectList(subjectsEntities,"예술"));
-        getSubjects.set기술가정(getSubjects.getSubjectList(subjectsEntities,"기술가정"));
-
-        return ResponseEntity.status(HttpStatus.OK).body(getSubjects);
-
-    }
-
 
 }
