@@ -1,13 +1,16 @@
 package com.uniform.web.AdmsissionInform.contorller;
 
 import com.uniform.web.AdmsissionInform.AdmissionInformService.SubjectSaveService;
+import com.uniform.web.AdmsissionInform.AdmissionInformService.SubjectService;
 import com.uniform.web.AdmsissionInform.AdmissionInformService.mappingJson.GetScore;
+import com.uniform.web.AdmsissionInform.AdmissionInformService.mappingJson.GetSubjects;
 import com.uniform.web.AdmsissionInform.AdmissionInformService.mappingJson.postScore;
 import com.uniform.web.AdmsissionInform.Repository.ScoreRepository;
 import com.uniform.web.AdmsissionInform.entity.*;
 import com.uniform.web.AdmsissionInform.AdmissionInformService.AdmissionInformService;
 import com.uniform.web.member.entity.MemberEntity;
 import com.uniform.web.member.repository.MemberRepository;
+import com.uniform.web.member.service.MemberService;
 import com.uniform.web.member.sessionKey.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -26,7 +30,7 @@ public class AdmissionInformController {
     private final SubjectSaveService subjectSaveService;
     private final ScoreRepository scoreRepository;
     private final MemberRepository memberRepository;
-
+    private final SubjectService subjectService;
     //    @PostMapping("/analysis")
 //    public SchoolInfo checkInform(@RequestBody SchoolInfo schoolInfo) {
 //        return null;
@@ -113,8 +117,7 @@ public class AdmissionInformController {
         if (member == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Invalid Session\"");
         }
-//        ArrayList<ScoreEntity> scores = scoreRepository.findScoreEntitiesByUserId(memberRepository.findAllByMemberId(member));
-        ArrayList<ScoreEntity> scores = scoreRepository.findScoreEntitiesByUserId(member);
+        ArrayList<ScoreEntity> scores = scoreRepository.findScoreEntitiesByUserId(memberRepository.findAllByMemberId(member));
         if (scores == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"empty scores\"");
         }
@@ -136,5 +139,27 @@ public class AdmissionInformController {
         return ResponseEntity.status(HttpStatus.OK).body(getScores);
 
     }
+    @GetMapping("/subject")
+    public ResponseEntity<?> getSubject(HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Invalid Session\"");
+        }
+        List<SubjectsEntity> subjectsEntities = subjectService.getAllSubjectsEntities();
+        if (subjectsEntities == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"empty subject\"");
+        }
+        GetSubjects getSubjects = new GetSubjects();
+        getSubjects.set국어(getSubjects.getSubjectList(subjectsEntities,"국어"));
+        getSubjects.set수학(getSubjects.getSubjectList(subjectsEntities,"수학"));
+        getSubjects.set영어(getSubjects.getSubjectList(subjectsEntities,"영어"));
+        getSubjects.set사회(getSubjects.getSubjectList(subjectsEntities,"사회"));
+        getSubjects.set과학(getSubjects.getSubjectList(subjectsEntities,"과학"));
+        getSubjects.set체육(getSubjects.getSubjectList(subjectsEntities,"체육"));
+        getSubjects.set예술(getSubjects.getSubjectList(subjectsEntities,"예술"));
+        getSubjects.set기술가정(getSubjects.getSubjectList(subjectsEntities,"기술가정"));
 
+        return ResponseEntity.status(HttpStatus.OK).body(getSubjects);
+
+    }
 }
