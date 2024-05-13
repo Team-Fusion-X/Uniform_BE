@@ -17,5 +17,5 @@ public class SubjectScore {
     private double subjectMean;
     private int headCount;
     private int ranking;
-    private double standardDeviation;
+    private double sdeviation;
 }

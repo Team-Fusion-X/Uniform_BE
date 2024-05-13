@@ -2,15 +2,12 @@ package com.uniform.web.AdmsissionInform.contorller;
 
 import com.uniform.web.AdmsissionInform.AdmissionInformService.SubjectSaveService;
 import com.uniform.web.AdmsissionInform.AdmissionInformService.SubjectService;
-import com.uniform.web.AdmsissionInform.AdmissionInformService.mappingJson.GetScore;
-import com.uniform.web.AdmsissionInform.AdmissionInformService.mappingJson.GetSubjects;
-import com.uniform.web.AdmsissionInform.AdmissionInformService.mappingJson.postScore;
+import com.uniform.web.AdmsissionInform.AdmissionInformService.mappingJson.*;
 import com.uniform.web.AdmsissionInform.Repository.ScoreRepository;
 import com.uniform.web.AdmsissionInform.entity.*;
 import com.uniform.web.AdmsissionInform.AdmissionInformService.AdmissionInformService;
 import com.uniform.web.member.entity.MemberEntity;
 import com.uniform.web.member.repository.MemberRepository;
-import com.uniform.web.member.service.MemberService;
 import com.uniform.web.member.sessionKey.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -73,15 +70,16 @@ public class AdmissionInformController {
         ScoreEntity scoreEntity = new ScoreEntity();
         SubjectsEntity subjectsEntity = subjectSaveService.findSubjectEntity(PostScore.getSubjectName(), PostScore.getCurriculum());
         SchoolYearEntity schoolYearEntity = subjectSaveService.findSchoolEntity(PostScore.getSchoolYear(),PostScore.getSchoolTerm());
-        scoreEntity.setRaw_score(PostScore.getRawScore());
+        scoreEntity.setRawScore(PostScore.getRawScore());
         scoreEntity.setUserId(memberEntity);
         scoreEntity.setCredit(PostScore.getCredit());
         scoreEntity.setRanking(PostScore.getRanking());
-        scoreEntity.setSubject_id(subjectsEntity);
+        scoreEntity.setSubjectId(subjectsEntity);
         scoreEntity.setHeadcount(PostScore.getHeadCount());
-        scoreEntity.setSubject_average(PostScore.getSubjectMean());
-        scoreEntity.setStandard_deviation(PostScore.getSDeviation());
-        scoreEntity.setSchool_year_id(schoolYearEntity);
+        scoreEntity.setSubjectAverage(PostScore.getSubjectMean());
+        scoreEntity.setStandardDeviation(PostScore.getSDeviation());
+        scoreEntity.setSchoolYearId(schoolYearEntity);
+
         if (memberEntity == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"no member\"");
         }
@@ -124,19 +122,21 @@ public class AdmissionInformController {
         ArrayList<GetScore> getScores = new ArrayList<>();
         for(ScoreEntity scoreEntity : scores){
             GetScore tmp = new GetScore();
-            tmp.setSchoolYear(scoreEntity.getSchool_year_id().getSchoolYear());
-            tmp.setSchoolTerm(scoreEntity.getSchool_year_id().getSchoolTerm());
-            tmp.setSubjectName(scoreEntity.getSubject_id().getSubject());
-            tmp.setCurriculum(scoreEntity.getSubject_id().getCurriculum());
-            tmp.setRawScore(scoreEntity.getRaw_score());
-            tmp.setSubjectMean(scoreEntity.getSubject_average());
-            tmp.setSDeviation(scoreEntity.getStandard_deviation());
+            tmp.setSchoolYear(scoreEntity.getSchoolYearId().getSchoolYear());
+            tmp.setSchoolTerm(scoreEntity.getSchoolYearId().getSchoolTerm());
+            tmp.setSubjectName(scoreEntity.getSubjectId().getSubject());
+            tmp.setCurriculum(scoreEntity.getSubjectId().getCurriculum());
+            tmp.setRawScore(scoreEntity.getRawScore());
+            tmp.setSubjectMean(scoreEntity.getSubjectAverage());
+            tmp.setSDeviation(scoreEntity.getStandardDeviation());
             tmp.setHeadCount(scoreEntity.getHeadcount());
             tmp.setRanking(scoreEntity.getRanking());
             tmp.setCredit(scoreEntity.getCredit());
             getScores.add(tmp);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(getScores);
+        WrappingGetScore wrappingGetScore = new WrappingGetScore();
+        wrappingGetScore.setGetScores(getScores);
+        return ResponseEntity.status(HttpStatus.OK).body(wrappingGetScore);
 
     }
     @GetMapping("/subject")

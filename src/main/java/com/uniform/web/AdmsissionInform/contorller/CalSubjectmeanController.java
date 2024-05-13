@@ -3,6 +3,8 @@ package com.uniform.web.AdmsissionInform.contorller;
 import com.uniform.web.AdmsissionInform.AdmissionInformService.CalSubjectMeanService;
 import com.uniform.web.AdmsissionInform.AdmissionInformService.mappingJson.WrappingSubjectScore;
 import com.uniform.web.AdmsissionInform.Repository.ScoreRepository;
+import com.uniform.web.member.entity.MemberEntity;
+import com.uniform.web.member.repository.MemberRepository;
 import com.uniform.web.member.sessionKey.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class CalSubjectmeanController {
     private final ScoreRepository scoreRepository;
     private final CalSubjectMeanService calSubjectMeanService;
+    private final MemberRepository memberRepository;
     @PostMapping("/average")
     public ResponseEntity<?> calMean(@RequestBody WrappingSubjectScore wrappingSubjectScore, HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession(false);
@@ -30,7 +33,7 @@ public class CalSubjectmeanController {
         if (member == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Invalid Session\"");
         }
-        if (calSubjectMeanService.calAllSubject(wrappingSubjectScore) == -1){
+        if (calSubjectMeanService.calAllSubject(wrappingSubjectScore,memberRepository.findAllByMemberId(member)) == -1){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Error\"");
         }
         return ResponseEntity.status(HttpStatus.OK).body("\"data\" : \"Save\"");

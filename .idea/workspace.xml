@@ -11,21 +11,19 @@
       <change beforePath="$PROJECT_DIR$/.gradle/8.4/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.4/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/web.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/web.main.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/AdmissionInformController.class.uniqueId0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/CalSubjectMeanService.class.uniqueId0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/CalSubjectmeanController.class.uniqueId1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/SubjectRepository.class.uniqueId1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/SubjectSaveService.class.uniqueId2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/CalSubjectmeanController.class.uniqueId0" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/Repository/ScoreRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/Repository/ScoreRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/AdmissionInformService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/AdmissionInformService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/CalSubjectMeanService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/CalSubjectMeanService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/mappingJson/SubjectScore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/mappingJson/SubjectScore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/mappingJson/WrappingSubjectScore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/mappingJson/WrappingSubjectScore.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/contorller/AdmissionInformController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/contorller/AdmissionInformController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/contorller/CalSubjectmeanController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/contorller/CalSubjectmeanController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/dto/ScoreDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/dto/ScoreDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/entity/AverageEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/entity/AverageEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/entity/ScoreEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/entity/ScoreEntity.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,27 +69,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Build uniform_be.executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.UniformApplication.executor": "Run",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/hyo/Documents/GitHub/uniform_be",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Build uniform_be.executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.UniformApplication.executor&quot;: &quot;Run&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;donghyo__fix__load__subjects__table&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/hyo/Documents/GitHub/uniform_be&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="UniformApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
@@ -126,11 +124,43 @@
       <workItem from="1715415189853" duration="776000" />
       <workItem from="1715500654194" duration="21779000" />
       <workItem from="1715593187251" duration="84000" />
-      <workItem from="1715601615980" duration="781000" />
+      <workItem from="1715601615980" duration="7643000" />
+      <workItem from="1715612227785" duration="5122000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/contorller/CalSubjectmeanController.java</url>
+          <line>25</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/CalSubjectMeanService.java</url>
+          <line>259</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/CalSubjectMeanService.java</url>
+          <line>226</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/CalSubjectMeanService.java</url>
+          <line>183</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/contorller/AdmissionInformController.java</url>
+          <line>68</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
