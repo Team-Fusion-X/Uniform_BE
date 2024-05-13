@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a83cbb4a-4e85-4853-95b3-67f12b287821" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/dto/AverageDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.4/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.4/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.4/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/fileHashes/fileHashes.bin" afterDir="false" />
@@ -13,17 +14,20 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/CalSubjectmeanController.class.uniqueId0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/AdmissionInformController.class.uniqueId0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/CalSubjectmeanController.class.uniqueId5" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/ScoreDTO.class.uniqueId3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/ScoreEntity.class.uniqueId1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/ScoreRepository.class.uniqueId2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/SubjectSaveService.class.uniqueId6" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/SubjectService.class.uniqueId4" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/AdmissionInformService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/AdmissionInformService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/CalSubjectMeanService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/CalSubjectMeanService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/mappingJson/SubjectScore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/mappingJson/SubjectScore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/mappingJson/WrappingSubjectScore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/mappingJson/WrappingSubjectScore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/mappingJson/postScore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/mappingJson/postScore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/Repository/AverageRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/Repository/AverageRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/contorller/AdmissionInformController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/contorller/AdmissionInformController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/contorller/CalSubjectmeanController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/contorller/CalSubjectmeanController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/dto/ScoreDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/dto/ScoreDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/entity/AverageEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/entity/AverageEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/entity/ScoreEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/entity/ScoreEntity.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,8 +54,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -125,7 +129,8 @@
       <workItem from="1715500654194" duration="21779000" />
       <workItem from="1715593187251" duration="84000" />
       <workItem from="1715601615980" duration="7643000" />
-      <workItem from="1715612227785" duration="5122000" />
+      <workItem from="1715612227785" duration="7530000" />
+      <workItem from="1715619791487" duration="3057000" />
     </task>
     <servers />
   </component>
@@ -137,28 +142,18 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/contorller/CalSubjectmeanController.java</url>
-          <line>25</line>
+          <line>29</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/CalSubjectMeanService.java</url>
-          <line>259</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/CalSubjectMeanService.java</url>
-          <line>226</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/CalSubjectMeanService.java</url>
-          <line>183</line>
+          <line>163</line>
           <option name="timeStamp" value="16" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/contorller/AdmissionInformController.java</url>
-          <line>68</line>
-          <option name="timeStamp" value="17" />
+          <line>69</line>
+          <option name="timeStamp" value="18" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
