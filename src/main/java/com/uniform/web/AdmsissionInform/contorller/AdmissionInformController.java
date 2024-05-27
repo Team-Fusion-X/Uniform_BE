@@ -1,8 +1,11 @@
 package com.uniform.web.AdmsissionInform.contorller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uniform.web.AdmsissionInform.AdmissionInformService.SubjectSaveService;
 import com.uniform.web.AdmsissionInform.AdmissionInformService.SubjectService;
 import com.uniform.web.AdmsissionInform.AdmissionInformService.mappingJson.*;
+import com.uniform.web.AdmsissionInform.Repository.AverageRepository;
 import com.uniform.web.AdmsissionInform.Repository.ScoreRepository;
 import com.uniform.web.AdmsissionInform.entity.*;
 import com.uniform.web.AdmsissionInform.AdmissionInformService.AdmissionInformService;
@@ -13,9 +16,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,18 +33,21 @@ public class AdmissionInformController {
     private final ScoreRepository scoreRepository;
     private final MemberRepository memberRepository;
     private final SubjectService subjectService;
+    private final AverageRepository averageRepository;
+    @Autowired
+    private final RestTemplate restTemplate;
     //    @PostMapping("/analysis")
 //    public SchoolInfo checkInform(@RequestBody SchoolInfo schoolInfo) {
 //        return null;
 //    }
     @PostMapping("/analysis")
-    public ResponseEntity<?> checkInform(@RequestBody SchoolInfo schoolInfo, HttpServletRequest request,HttpServletResponse response){
+    public ResponseEntity<?> checkInform(@RequestBody SchoolInfo schoolInfo, HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession(false);
         if (session == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Invalid Session\"");
         }
         String member = (String) session.getAttribute(SessionConst.LOGIN_MEMBER);
-        if (member == null){
+        if (member == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Invalid Session\"");
         }
         System.out.println(member);
@@ -55,21 +63,22 @@ public class AdmissionInformController {
             // 처리할 수 없는 경우에 대한 로직 추가
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Error\"");
         }
-}
+    }
+
     @PostMapping("/score")
-    public ResponseEntity<?> saveScore(@RequestBody postScore postScore,HttpServletRequest request,HttpServletResponse response){
+    public ResponseEntity<?> saveScore(@RequestBody postScore postScore, HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession(false);
         if (session == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Invalid Session\"");
         }
         String memberId = (String) session.getAttribute(SessionConst.LOGIN_MEMBER);
-        if (memberId == null){
+        if (memberId == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Invalid Session\"");
         }
         MemberEntity memberEntity = subjectSaveService.findMemberEntity(memberId);
         ScoreEntity scoreEntity = new ScoreEntity();
         SubjectsEntity subjectsEntity = subjectSaveService.findSubjectEntity(postScore.getSubjectName(), postScore.getCurriculum());
-        SchoolYearEntity schoolYearEntity = subjectSaveService.findSchoolEntity(postScore.getSchoolYear(),postScore.getSchoolTerm());
+        SchoolYearEntity schoolYearEntity = subjectSaveService.findSchoolEntity(postScore.getSchoolYear(), postScore.getSchoolTerm());
         scoreEntity.setRawScore(postScore.getRawScore());
         scoreEntity.setUserId(memberEntity);
         scoreEntity.setCredit(postScore.getCredit());
@@ -80,24 +89,24 @@ public class AdmissionInformController {
         scoreEntity.setStandardDeviation(postScore.getSDeviation());
         scoreEntity.setSchoolYearId(schoolYearEntity);
 
-        if (memberEntity == null){
+        if (memberEntity == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"no member\"");
         }
-        if (subjectsEntity == null){
+        if (subjectsEntity == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"wrong subject\"");
         }
-        if (schoolYearEntity == null){
+        if (schoolYearEntity == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"wrong school year\"");
         }
-        if (subjectSaveService.saveScore(scoreEntity)){
+        if (subjectSaveService.saveScore(scoreEntity)) {
             return ResponseEntity.status(HttpStatus.OK).body("저장 완료");
-        }
-        else{
+        } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("오류");
         }
     }
+
     @GetMapping("/analysis/test")
-    public AnalysisData test(@RequestBody SchoolInfo schoolInfo){
+    public AnalysisData test(@RequestBody SchoolInfo schoolInfo) {
         AnalysisData analysisData = new AnalysisData();
         analysisData.setDanger("6");
         analysisData.setProb("11");
@@ -105,22 +114,23 @@ public class AdmissionInformController {
         analysisData.setSchool("전남대학교");
         return analysisData;
     }
+
     @GetMapping("/score")
-    public ResponseEntity<?> getScore(HttpServletRequest request){
+    public ResponseEntity<?> getScore(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Invalid Session\"");
         }
         String member = (String) session.getAttribute(SessionConst.LOGIN_MEMBER);
-        if (member == null){
+        if (member == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Invalid Session\"");
         }
         ArrayList<ScoreEntity> scores = scoreRepository.findScoreEntitiesByUserId(memberRepository.findAllByMemberId(member));
-        if (scores == null){
+        if (scores == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"empty scores\"");
         }
         ArrayList<GetScore> getScores = new ArrayList<>();
-        for(ScoreEntity scoreEntity : scores){
+        for (ScoreEntity scoreEntity : scores) {
             GetScore tmp = new GetScore();
             tmp.setSchoolYear(scoreEntity.getSchoolYearId().getSchoolYear());
             tmp.setSchoolTerm(scoreEntity.getSchoolYearId().getSchoolTerm());
@@ -139,27 +149,99 @@ public class AdmissionInformController {
         return ResponseEntity.status(HttpStatus.OK).body(wrappingGetScore);
 
     }
+
     @GetMapping("/subject")
-    public ResponseEntity<?> getSubject(HttpServletRequest request){
+    public ResponseEntity<?> getSubject(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Invalid Session\"");
         }
         List<SubjectsEntity> subjectsEntities = subjectService.getAllSubjectsEntities();
-        if (subjectsEntities == null){
+        if (subjectsEntities == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"empty subject\"");
         }
         GetSubjects getSubjects = new GetSubjects();
-        getSubjects.set국어(getSubjects.getSubjectList(subjectsEntities,"국어"));
-        getSubjects.set수학(getSubjects.getSubjectList(subjectsEntities,"수학"));
-        getSubjects.set영어(getSubjects.getSubjectList(subjectsEntities,"영어"));
-        getSubjects.set사회(getSubjects.getSubjectList(subjectsEntities,"사회"));
-        getSubjects.set과학(getSubjects.getSubjectList(subjectsEntities,"과학"));
-        getSubjects.set체육(getSubjects.getSubjectList(subjectsEntities,"체육"));
-        getSubjects.set예술(getSubjects.getSubjectList(subjectsEntities,"예술"));
-        getSubjects.set기술가정(getSubjects.getSubjectList(subjectsEntities,"기술가정"));
+        getSubjects.set국어(getSubjects.getSubjectList(subjectsEntities, "국어"));
+        getSubjects.set수학(getSubjects.getSubjectList(subjectsEntities, "수학"));
+        getSubjects.set영어(getSubjects.getSubjectList(subjectsEntities, "영어"));
+        getSubjects.set사회(getSubjects.getSubjectList(subjectsEntities, "사회"));
+        getSubjects.set과학(getSubjects.getSubjectList(subjectsEntities, "과학"));
+        getSubjects.set체육(getSubjects.getSubjectList(subjectsEntities, "체육"));
+        getSubjects.set예술(getSubjects.getSubjectList(subjectsEntities, "예술"));
+        getSubjects.set기술가정(getSubjects.getSubjectList(subjectsEntities, "기술가정"));
 
         return ResponseEntity.status(HttpStatus.OK).body(getSubjects);
 
     }
+
+    @PostMapping("/analysis/one")
+    public ResponseEntity<?> analysisOne(@RequestBody PostAnalysis postAnalysis, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Invalid Session\"");
+        }
+        String member = (String) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if (member == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Invalid Session\"");
+        }
+        String url = "http://114.70.92.44:11030/predict";
+        gpaData data = new gpaData();
+        List<Object> dataList = new ArrayList<>();
+        dataList.add(postAnalysis.getUniversity());
+        dataList.add(postAnalysis.getDepartment());
+        dataList.add(postAnalysis.getHope());
+        AverageEntity averageEntity = averageRepository.findAllByAverageIdAndUserId(35, memberRepository.findAllByMemberId(member));
+        dataList.add((float) averageEntity.getAllSubjectDegree());
+        dataList.add((float) averageEntity.getKemsoDegree());
+        dataList.add((float) averageEntity.getKemsDegree());
+        dataList.add((float) averageEntity.getKemrPercentile());
+        dataList.add((float) averageEntity.getKemrDegree());
+
+
+        data.setData_list(dataList);
+//        return ResponseEntity.status(HttpStatus.OK).body(data);
+        gpaData data1 = new gpaData();
+        List<Object> dataList1 = new ArrayList<>();
+        dataList1.add("DGIST");
+        dataList1.add("융복합대학(기초학부)");
+        dataList1.add("종합");
+        dataList1.add(3);
+        dataList1.add(2);
+        dataList1.add(2);
+        dataList1.add(270);
+        dataList1.add(1);
+        data1.setData_list(dataList1);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        // 여기서 HttpEntity 객체를 생성하여 요청 데이터를 포함합니다.
+        HttpEntity<gpaData> httpRequest = new HttpEntity<>(data, httpHeaders);
+
+
+        // restTemplate의 postForEntity 메소드에 적절한 HttpEntity 객체를 전달합니다.
+        ResponseEntity<String> response = restTemplate.postForEntity(url, httpRequest, String.class);
+
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                JsonNode rootNode = mapper.readTree(response.getBody());
+                String possibility = rootNode.get("합격 확률").asText(); // JSON 키를 정확히 입력하세요
+                System.out.println("합격 확률: " + possibility);
+                return ResponseEntity.status(HttpStatus.OK).body("{\"possibility\" : \"" + possibility + "\"}");
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in JSON parsing");
+            }
+        }
+
+        else {
+            System.out.println("Failed to send data: " + response.getStatusCode());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
+        }
+    }
+
+
+
+
 }

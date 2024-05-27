@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AverageRepository extends JpaRepository<AverageEntity,Integer> {
-    public AverageEntity findAllByAverageIdAndUserId(int average_id,MemberEntity user_id);
+    AverageEntity findAllByAverageIdAndUserId(int average_id,MemberEntity user_id);
+
 }

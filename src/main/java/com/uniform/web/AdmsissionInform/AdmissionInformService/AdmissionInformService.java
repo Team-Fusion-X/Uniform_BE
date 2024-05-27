@@ -10,6 +10,10 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.*;
 
 public class AdmissionInformService {
+
+
+
+
     public gpaData calGPA(SchoolInfo schoolInfo) {
         //1학년 성적(1학기,2학기)
         List<List<SchoolInfo.SubjectScore>> allYearScores = new ArrayList<>();
