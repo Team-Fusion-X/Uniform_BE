@@ -1,10 +1,16 @@
 package com.uniform.web.AdmsissionInform.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class gpaData {
     @JsonProperty("data_list")
     List<Object> data_list = new ArrayList<>();

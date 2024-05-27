@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a83cbb4a-4e85-4853-95b3-67f12b287821" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/dto/AverageDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/mappingJson/PostAnalysis.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.4/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.4/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.4/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/fileHashes/fileHashes.bin" afterDir="false" />
@@ -14,20 +14,15 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/AdmissionInformController.class.uniqueId0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/CalSubjectmeanController.class.uniqueId5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/ScoreDTO.class.uniqueId3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/ScoreEntity.class.uniqueId1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/ScoreRepository.class.uniqueId2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/SubjectSaveService.class.uniqueId6" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/SubjectService.class.uniqueId4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/AverageRepository.class.uniqueId2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/CalSubjectMeanService.class.uniqueId0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/CalSubjectmeanController.class.uniqueId1" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/CalSubjectMeanService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/CalSubjectMeanService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/mappingJson/SubjectScore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/mappingJson/SubjectScore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/mappingJson/postScore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/mappingJson/postScore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/AdmissionInformService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/AdmissionInformService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/Repository/AverageRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/Repository/AverageRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/contorller/AdmissionInformController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/contorller/AdmissionInformController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/contorller/CalSubjectmeanController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/contorller/CalSubjectmeanController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/entity/gpaData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/entity/gpaData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/uniform/web/config/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/uniform/web/config/WebConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +78,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;Spring Boot.UniformApplication.executor&quot;: &quot;Run&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;donghyo__fix__load__subjects__table&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;donghyo__feat__average&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/hyo/Documents/GitHub/uniform_be&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -130,7 +125,11 @@
       <workItem from="1715593187251" duration="84000" />
       <workItem from="1715601615980" duration="7643000" />
       <workItem from="1715612227785" duration="7530000" />
-      <workItem from="1715619791487" duration="3057000" />
+      <workItem from="1715619791487" duration="6674000" />
+      <workItem from="1716480385761" duration="20000" />
+      <workItem from="1716643272252" duration="667000" />
+      <workItem from="1716710040581" duration="29000" />
+      <workItem from="1716813472707" duration="8462000" />
     </task>
     <servers />
   </component>
@@ -146,14 +145,14 @@
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/AdmissionInformService/CalSubjectMeanService.java</url>
-          <line>163</line>
-          <option name="timeStamp" value="16" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/contorller/AdmissionInformController.java</url>
+          <line>78</line>
+          <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/uniform/web/AdmsissionInform/contorller/AdmissionInformController.java</url>
-          <line>69</line>
-          <option name="timeStamp" value="18" />
+          <line>214</line>
+          <option name="timeStamp" value="23" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
