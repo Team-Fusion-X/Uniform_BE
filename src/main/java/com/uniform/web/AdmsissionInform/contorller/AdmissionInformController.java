@@ -6,6 +6,7 @@ import com.uniform.web.AdmsissionInform.AdmissionInformService.SubjectSaveServic
 import com.uniform.web.AdmsissionInform.AdmissionInformService.SubjectService;
 import com.uniform.web.AdmsissionInform.AdmissionInformService.mappingJson.*;
 import com.uniform.web.AdmsissionInform.Repository.AnalysisRepository;
+import com.uniform.web.AdmsissionInform.Repository.AnalysisSpecification;
 import com.uniform.web.AdmsissionInform.Repository.AverageRepository;
 import com.uniform.web.AdmsissionInform.Repository.ScoreRepository;
 import com.uniform.web.AdmsissionInform.entity.*;
@@ -18,6 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -224,7 +226,6 @@ public class AdmissionInformController {
             try {
                 JsonNode rootNode = mapper.readTree(response.getBody());
                 String possibility = rootNode.get("합격 확률").asText(); // JSON 키를 정확히 입력하세요
-                System.out.println("합격 확률: " + possibility);
                 return ResponseEntity.status(HttpStatus.OK).body("{\"possibility\" : \"" + possibility + "\"}");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -233,7 +234,6 @@ public class AdmissionInformController {
         }
 
         else {
-            System.out.println("Failed to send data: " + response.getStatusCode());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
         }
     }
@@ -256,7 +256,15 @@ public class AdmissionInformController {
         dataList.add((float) averageEntity.getKemsDegree());
         dataList.add((float) averageEntity.getKemrPercentile());
         dataList.add((float) averageEntity.getKemrDegree());
-        ArrayList<analysisEntity> analysisEntities = analysisRepository.findAllByFieldsAndDepartment(getLine.getField(), getLine.getMajor());
+
+        // Specification을 사용하여 동적 쿼리 작성
+        Specification<analysisEntity> spec = Specification.where(AnalysisSpecification.hasField(getLine.getField()))
+                .and(AnalysisSpecification.hasMajor(getLine.getMajor()))
+                .and(AnalysisSpecification.hasUniversity(getLine.getUniversity()))
+                .and(AnalysisSpecification.hasKeyword(getLine.getKeyword()));
+
+        List<analysisEntity> analysisEntities = analysisRepository.findAll(spec);
+
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
@@ -270,7 +278,7 @@ public class AdmissionInformController {
             temp.add("종합");
             temp = Stream.concat(temp.stream(),dataList.stream())
                     .collect(Collectors.toList());
-            System.out.println(temp);
+
             HttpEntity<gpaData> httpRequest = new HttpEntity<>(new gpaData(temp), httpHeaders);
             ResponseEntity<String> response = restTemplate.postForEntity(url, httpRequest, String.class);
             if (response.getStatusCode() == HttpStatus.OK) {
@@ -278,7 +286,9 @@ public class AdmissionInformController {
                 try {
                     JsonNode rootNode = mapper.readTree(response.getBody());
                     String possibility = rootNode.get("합격 확률").asText(); // JSON 키를 정확히 입력하세요
-                    resultAnalysis.data_list.add(new AnalysisDatas(entity.getUniversity(),entity.getDepartment(),possibility));
+                    // `%` 기호 제거
+                    String possibilityValue = possibility.replace("%", "").trim();
+                    resultAnalysis.data_list.add(new AnalysisDatas(entity.getUniversity(),entity.getDepartment(),possibilityValue));
                 } catch (Exception e) {
                     e.printStackTrace();
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in JSON parsing");
