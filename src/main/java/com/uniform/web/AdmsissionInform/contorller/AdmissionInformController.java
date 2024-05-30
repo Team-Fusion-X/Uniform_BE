@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uniform.web.AdmsissionInform.AdmissionInformService.SubjectSaveService;
 import com.uniform.web.AdmsissionInform.AdmissionInformService.SubjectService;
 import com.uniform.web.AdmsissionInform.AdmissionInformService.mappingJson.*;
+import com.uniform.web.AdmsissionInform.Repository.AnalysisRepository;
 import com.uniform.web.AdmsissionInform.Repository.AverageRepository;
 import com.uniform.web.AdmsissionInform.Repository.ScoreRepository;
 import com.uniform.web.AdmsissionInform.entity.*;
@@ -17,13 +18,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/api")
@@ -34,36 +36,37 @@ public class AdmissionInformController {
     private final MemberRepository memberRepository;
     private final SubjectService subjectService;
     private final AverageRepository averageRepository;
+    private final AnalysisRepository analysisRepository;
     @Autowired
     private final RestTemplate restTemplate;
     //    @PostMapping("/analysis")
 //    public SchoolInfo checkInform(@RequestBody SchoolInfo schoolInfo) {
 //        return null;
 //    }
-    @PostMapping("/analysis")
-    public ResponseEntity<?> checkInform(@RequestBody SchoolInfo schoolInfo, HttpServletRequest request, HttpServletResponse response) {
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Invalid Session\"");
-        }
-        String member = (String) session.getAttribute(SessionConst.LOGIN_MEMBER);
-        if (member == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Invalid Session\"");
-        }
-        System.out.println(member);
-        AdmissionInformService admissionInformService = new AdmissionInformService();
-        if (schoolInfo != null &&
-                schoolInfo.getScores() != null &&
-                schoolInfo.getScores().getFirstYearFirstSemester() != null &&
-                schoolInfo.getScores().getFirstYearFirstSemester().size() > 1) {
-            gpaData data = admissionInformService.calGPA(schoolInfo);
-            // 안전하게 접근
-            return ResponseEntity.status(HttpStatus.OK).body(data);
-        } else {
-            // 처리할 수 없는 경우에 대한 로직 추가
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Error\"");
-        }
-    }
+//    @PostMapping("/analysis")
+//    public ResponseEntity<?> checkInform(@RequestBody SchoolInfo schoolInfo, HttpServletRequest request, HttpServletResponse response) {
+//        HttpSession session = request.getSession(false);
+//        if (session == null) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Invalid Session\"");
+//        }
+//        String member = (String) session.getAttribute(SessionConst.LOGIN_MEMBER);
+//        if (member == null) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Invalid Session\"");
+//        }
+//        System.out.println(member);
+//        AdmissionInformService admissionInformService = new AdmissionInformService();
+//        if (schoolInfo != null &&
+//                schoolInfo.getScores() != null &&
+//                schoolInfo.getScores().getFirstYearFirstSemester() != null &&
+//                schoolInfo.getScores().getFirstYearFirstSemester().size() > 1) {
+//            gpaData data = admissionInformService.calGPA(schoolInfo);
+//            // 안전하게 접근
+//            return ResponseEntity.status(HttpStatus.OK).body(data);
+//        } else {
+//            // 처리할 수 없는 경우에 대한 로직 추가
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Error\"");
+//        }
+//    }
 
     @PostMapping("/score")
     public ResponseEntity<?> saveScore(@RequestBody postScore postScore, HttpServletRequest request, HttpServletResponse response) {
@@ -205,12 +208,6 @@ public class AdmissionInformController {
         dataList1.add("DGIST");
         dataList1.add("융복합대학(기초학부)");
         dataList1.add("종합");
-        dataList1.add(3);
-        dataList1.add(2);
-        dataList1.add(2);
-        dataList1.add(270);
-        dataList1.add(1);
-        data1.setData_list(dataList1);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
@@ -240,8 +237,54 @@ public class AdmissionInformController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
         }
     }
+    @PostMapping("/analysis")
+    public ResponseEntity<?> analysisMany(@RequestBody GetLine getLine,HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Invalid Session\"");
+        }
+        String member = (String) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if (member == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Invalid Session\"");
+        }
+        String url = "http://114.70.92.44:11030/predict";
+        gpaData data = new gpaData();
+        List<Object> dataList = new ArrayList<>();
+        AverageEntity averageEntity = averageRepository.findAllByAverageIdAndUserId(35, memberRepository.findAllByMemberId(member));
+        dataList.add((float) averageEntity.getAllSubjectDegree());
+        dataList.add((float) averageEntity.getKemsoDegree());
+        dataList.add((float) averageEntity.getKemsDegree());
+        dataList.add((float) averageEntity.getKemrPercentile());
+        dataList.add((float) averageEntity.getKemrDegree());
+        ArrayList<analysisEntity> analysisEntities = analysisRepository.findAllByFieldsAndDepartment(getLine.getField(), getLine.getMajor());
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        analysisAll resultAnalysis = new analysisAll();
 
 
-
-
+        for(analysisEntity entity:analysisEntities){
+            List<Object> temp = new ArrayList<>();
+            temp.add(entity.getUniversity());
+            temp.add(entity.getFields());
+            temp.add("종합");
+            temp = Stream.concat(temp.stream(),dataList.stream())
+                    .collect(Collectors.toList());
+            System.out.println(temp);
+            HttpEntity<gpaData> httpRequest = new HttpEntity<>(new gpaData(temp), httpHeaders);
+            ResponseEntity<String> response = restTemplate.postForEntity(url, httpRequest, String.class);
+            if (response.getStatusCode() == HttpStatus.OK) {
+                ObjectMapper mapper = new ObjectMapper();
+                try {
+                    JsonNode rootNode = mapper.readTree(response.getBody());
+                    String possibility = rootNode.get("합격 확률").asText(); // JSON 키를 정확히 입력하세요
+                    resultAnalysis.data_list.add(new AnalysisDatas(entity.getUniversity(),entity.getDepartment(),possibility));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in JSON parsing");
+                }
+            }
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(resultAnalysis);
+    }
 }
