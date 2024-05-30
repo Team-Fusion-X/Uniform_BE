@@ -286,7 +286,9 @@ public class AdmissionInformController {
                 try {
                     JsonNode rootNode = mapper.readTree(response.getBody());
                     String possibility = rootNode.get("합격 확률").asText(); // JSON 키를 정확히 입력하세요
-                    resultAnalysis.data_list.add(new AnalysisDatas(entity.getUniversity(),entity.getDepartment(),possibility));
+                    // `%` 기호 제거
+                    String possibilityValue = possibility.replace("%", "").trim();
+                    resultAnalysis.data_list.add(new AnalysisDatas(entity.getUniversity(),entity.getDepartment(),possibilityValue));
                 } catch (Exception e) {
                     e.printStackTrace();
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in JSON parsing");
