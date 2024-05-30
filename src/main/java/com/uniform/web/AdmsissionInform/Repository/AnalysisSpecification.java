@@ -6,7 +6,7 @@ import org.springframework.data.jpa.domain.Specification;
 public class AnalysisSpecification {
 
     public static Specification<analysisEntity> hasField(String field) {
-        return (root, query, cb) -> cb.equal(root.get("fields"), field);
+        return (root, query, cb) -> field == null ? cb.conjunction() : cb.equal(root.get("fields"), field);
     }
 
     public static Specification<analysisEntity> hasMajor(String major) {
@@ -18,6 +18,6 @@ public class AnalysisSpecification {
     }
 
     public static Specification<analysisEntity> hasKeyword(String keyword) {
-        return (root, query, cb) -> keyword == null ? cb.conjunction() : cb.like(root.get("keyword"), "%" + keyword + "%");
+        return (root, query, cb) -> keyword == null ? cb.conjunction() : cb.equal(root.get("keyword"), keyword);
     }
 }

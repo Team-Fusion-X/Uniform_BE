@@ -202,14 +202,8 @@ public class AdmissionInformController {
         dataList.add((float) averageEntity.getKemrPercentile());
         dataList.add((float) averageEntity.getKemrDegree());
 
-
         data.setData_list(dataList);
-//        return ResponseEntity.status(HttpStatus.OK).body(data);
-        gpaData data1 = new gpaData();
-        List<Object> dataList1 = new ArrayList<>();
-        dataList1.add("DGIST");
-        dataList1.add("융복합대학(기초학부)");
-        dataList1.add("종합");
+
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
@@ -274,7 +268,7 @@ public class AdmissionInformController {
         for(analysisEntity entity:analysisEntities){
             List<Object> temp = new ArrayList<>();
             temp.add(entity.getUniversity());
-            temp.add(entity.getFields());
+            temp.add(entity.getDepartment());
             temp.add("종합");
             temp = Stream.concat(temp.stream(),dataList.stream())
                     .collect(Collectors.toList());
