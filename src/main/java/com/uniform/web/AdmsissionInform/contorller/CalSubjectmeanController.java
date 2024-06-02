@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Controller
 @RequiredArgsConstructor
@@ -53,9 +55,23 @@ public class CalSubjectmeanController {
         if (member == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Invalid Session\"");
         }
-        AverageEntity averageEntity = averageRepository.findAllByAverageIdAndUserId(35,memberRepository.findAllByMemberId(member));
-        AverageDTO averageDTO = AverageDTO.toAverageDTO(averageEntity);
-        return ResponseEntity.status(HttpStatus.OK).body(averageDTO);
-
+        if (member.equals("abc123")) {
+            AverageEntity averageEntity = averageRepository.findAllByAverageIdAndUserId(35, memberRepository.findAllByMemberId(member));
+            AverageDTO averageDTO = AverageDTO.toAverageDTO(averageEntity);
+            return ResponseEntity.status(HttpStatus.OK).body(averageDTO);
+        } else if (member.equals("wndyd123")) {
+            AverageEntity averageEntity = averageRepository.findAllByAverageIdAndUserId(38, memberRepository.findAllByMemberId(member));
+            AverageDTO averageDTO = AverageDTO.toAverageDTO(averageEntity);
+            return ResponseEntity.status(HttpStatus.OK).body(averageDTO);
+        }
+        else{
+            List<AverageEntity> averageEntities = averageRepository.findAllByAverageId(memberRepository.findAllByMemberId(member));
+            int averageId = averageEntities.stream()
+                    .mapToInt(AverageEntity::getAverageId)
+                    .max().getAsInt();
+            AverageEntity averageEntity = averageRepository.findAllByAverageIdAndUserId(averageId, memberRepository.findAllByMemberId(member));
+            AverageDTO averageDTO = AverageDTO.toAverageDTO(averageEntity);
+            return ResponseEntity.status(HttpStatus.OK).body(averageDTO);
+        }
     }
 }
