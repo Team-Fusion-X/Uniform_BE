@@ -289,7 +289,7 @@ public class AdmissionInformController {
         for(analysisEntity entity:analysisEntities){
             List<Object> temp = new ArrayList<>();
             temp.add(entity.getUniversity());
-            temp.add(entity.getFields());
+            temp.add(entity.getDepartment());
             temp.add("종합");
             temp = Stream.concat(temp.stream(),dataList.stream())
                     .collect(Collectors.toList());
