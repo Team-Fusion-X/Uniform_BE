@@ -195,24 +195,27 @@ public class AdmissionInformController {
         dataList.add(postAnalysis.getUniversity());
         dataList.add(postAnalysis.getDepartment());
         dataList.add(postAnalysis.getHope());
-        AverageEntity averageEntity = averageRepository.findAllByAverageIdAndUserId(35, memberRepository.findAllByMemberId(member));
+        AverageEntity averageEntity = new AverageEntity();
+        if (member.equals("abc123")) {
+            averageEntity = averageRepository.findAllByAverageIdAndUserId(35, memberRepository.findAllByMemberId(member));
+        } else if (member.equals("wndyd123")) {
+            averageEntity = averageRepository.findAllByAverageIdAndUserId(38, memberRepository.findAllByMemberId(member));
+        } else {
+            List<AverageEntity> averageEntities = averageRepository.findAllByAverageId(memberRepository.findAllByMemberId(member));
+            int averageId = averageEntities.stream()
+                    .mapToInt(AverageEntity::getAverageId)
+                    .max().getAsInt();
+            averageEntity = averageRepository.findAllByAverageIdAndUserId(averageId, memberRepository.findAllByMemberId(member));
+        }
         dataList.add((float) averageEntity.getAllSubjectDegree());
         dataList.add((float) averageEntity.getKemsoDegree());
         dataList.add((float) averageEntity.getKemsDegree());
         dataList.add((float) averageEntity.getKemrPercentile());
         dataList.add((float) averageEntity.getKemrDegree());
-
-
         data.setData_list(dataList);
 //        return ResponseEntity.status(HttpStatus.OK).body(data);
-        gpaData data1 = new gpaData();
-        List<Object> dataList1 = new ArrayList<>();
-        dataList1.add("DGIST");
-        dataList1.add("융복합대학(기초학부)");
-        dataList1.add("종합");
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-
         // 여기서 HttpEntity 객체를 생성하여 요청 데이터를 포함합니다.
         HttpEntity<gpaData> httpRequest = new HttpEntity<>(data, httpHeaders);
 
@@ -250,7 +253,19 @@ public class AdmissionInformController {
         String url = "http://114.70.92.44:11030/predict";
         gpaData data = new gpaData();
         List<Object> dataList = new ArrayList<>();
-        AverageEntity averageEntity = averageRepository.findAllByAverageIdAndUserId(35, memberRepository.findAllByMemberId(member));
+        AverageEntity averageEntity = new AverageEntity();
+        if (member.equals("abc123")) {
+            averageEntity = averageRepository.findAllByAverageIdAndUserId(35, memberRepository.findAllByMemberId(member));
+        } else if (member.equals("wndyd123")) {
+            averageEntity = averageRepository.findAllByAverageIdAndUserId(38, memberRepository.findAllByMemberId(member));
+        }
+        else{
+            List<AverageEntity> averageEntities = averageRepository.findAllByAverageId(memberRepository.findAllByMemberId(member));
+            int averageId = averageEntities.stream()
+                    .mapToInt(AverageEntity::getAverageId)
+                    .max().getAsInt();
+            averageEntity = averageRepository.findAllByAverageIdAndUserId(averageId, memberRepository.findAllByMemberId(member));
+        }
         dataList.add((float) averageEntity.getAllSubjectDegree());
         dataList.add((float) averageEntity.getKemsoDegree());
         dataList.add((float) averageEntity.getKemsDegree());
