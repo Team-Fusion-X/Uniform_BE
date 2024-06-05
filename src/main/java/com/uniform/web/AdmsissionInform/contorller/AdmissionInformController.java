@@ -258,14 +258,13 @@ public class AdmissionInformController {
             averageEntity = averageRepository.findAllByAverageIdAndUserId(35, memberRepository.findAllByMemberId(member));
         } else if (member.equals("wndyd123")) {
             averageEntity = averageRepository.findAllByAverageIdAndUserId(38, memberRepository.findAllByMemberId(member));
-        } else {
+        } else{
             List<AverageEntity> averageEntities = averageRepository.findAllByAverageId(memberRepository.findAllByMemberId(member));
             int averageId = averageEntities.stream()
                     .mapToInt(AverageEntity::getAverageId)
                     .max().getAsInt();
             averageEntity = averageRepository.findAllByAverageIdAndUserId(averageId, memberRepository.findAllByMemberId(member));
         }
-
         dataList.add((float) averageEntity.getAllSubjectDegree());
         dataList.add((float) averageEntity.getKemsoDegree());
         dataList.add((float) averageEntity.getKemsDegree());
