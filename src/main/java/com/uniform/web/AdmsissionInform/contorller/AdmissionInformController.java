@@ -229,6 +229,7 @@ public class AdmissionInformController {
             try {
                 JsonNode rootNode = mapper.readTree(response.getBody());
                 String possibility = rootNode.get("합격 확률").asText(); // JSON 키를 정확히 입력하세요
+                possibility = possibility + "%";
                 return ResponseEntity.status(HttpStatus.OK).body("{\"possibility\" : \"" + possibility + "\"}");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -251,15 +252,13 @@ public class AdmissionInformController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"data\" : \"Invalid Session\"");
         }
         String url = "http://114.70.92.44:11030/predict";
-        gpaData data = new gpaData();
         List<Object> dataList = new ArrayList<>();
         AverageEntity averageEntity = new AverageEntity();
         if (member.equals("abc123")) {
             averageEntity = averageRepository.findAllByAverageIdAndUserId(35, memberRepository.findAllByMemberId(member));
         } else if (member.equals("wndyd123")) {
             averageEntity = averageRepository.findAllByAverageIdAndUserId(38, memberRepository.findAllByMemberId(member));
-        }
-        else{
+        } else{
             List<AverageEntity> averageEntities = averageRepository.findAllByAverageId(memberRepository.findAllByMemberId(member));
             int averageId = averageEntities.stream()
                     .mapToInt(AverageEntity::getAverageId)
@@ -293,17 +292,23 @@ public class AdmissionInformController {
             temp.add("종합");
             temp = Stream.concat(temp.stream(),dataList.stream())
                     .collect(Collectors.toList());
-
+            
             HttpEntity<gpaData> httpRequest = new HttpEntity<>(new gpaData(temp), httpHeaders);
             ResponseEntity<String> response = restTemplate.postForEntity(url, httpRequest, String.class);
-            if (response.getStatusCode() == HttpStatus.OK) {
+            if (response.getStatusCode() == HttpStatus.OK) { 
                 ObjectMapper mapper = new ObjectMapper();
                 try {
                     JsonNode rootNode = mapper.readTree(response.getBody());
-                    String possibility = rootNode.get("합격 확률").asText(); // JSON 키를 정확히 입력하세요
-                    // `%` 기호 제거
-                    String possibilityValue = possibility.replace("%", "").trim();
-                    resultAnalysis.data_list.add(new AnalysisDatas(entity.getUniversity(),entity.getDepartment(),possibilityValue));
+                    // "합격 확률" 키가 존재하는지 확인하고, 값이 있는지 확인
+                    if (rootNode.has("합격 확률") && !rootNode.get("합격 확률").isNull()) {
+                        String possibility = rootNode.get("합격 확률").asText();
+                        resultAnalysis.data_list.add(new AnalysisDatas(entity.getUniversity(), entity.getDepartment(), possibility));
+                    } else {
+                        if (rootNode.has("error") && rootNode.get("error").asText().equals("Missing Data Error")) {
+                            continue;
+                        }
+                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in JSON parsing");
